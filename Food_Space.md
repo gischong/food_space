@@ -19,8 +19,8 @@ pip install Flask
   - pyrebase - https://github.com/thisbejim/Pyrebase  
 pip install pyrebase
  - After cloning this repository and installing the above, cd into the project directory where main.py is located.
- - Run:
-  $env:FLASK_APP = "main.py"
+ - Run:  
+  $env:FLASK_APP = "main.py"   
   flask run
  - Then head to http://127.0.0.1:5000/ where the site is running
 
