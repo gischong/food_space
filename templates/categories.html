@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="categories" style="margin-top: 10px;">
+        <div class="row" >
+        {% for category in categories %}
+            <div class="col-md-6">
+                <div class="card-deck">
+                <a class="card bg-light border-dark mb-3" href="/categories/{{category}}" style="text-decoration: none; color: black;">
+                    <div class="card-body" id="catcardbody" style="width: 448px; height: 448px;">
+                        <div class="category" >
+                            <div class="row justify-content-center" id="cardrow">
+                                <div class="col-md-8">
+                                    <img src="static\images\categories\{{category}}.jpg" style="width: 311.98px; height: 423.02px; object-fit: cover;" class="card-img-top" alt="...">
+                                </div>
+                                <div class="col-md-4" id="cattitlecol">
+                                    <h3 class="card-title" id="cattitle">{{category}}</h5>
+                                </div>
+                            </div>        
+                        </div>
+                    </div>
+                </a>    
+                </div>
+            </div>
+        {% endfor %}
+        </div>    
+    </div>
+</div>
+{% endblock content %}

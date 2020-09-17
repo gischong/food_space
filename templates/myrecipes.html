@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="recipes">
+        {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes.each() %}
+                {% if recipe.val().author == session["email"] %}
+                <div class="col-md-4">
+                    <div class="card border-dark mb-3" id="recipe_card" style="text-decoration: none; color: black;">
+                        <!--only shows recipes created by the user-->
+                        <div class="recipe">
+                            <img class="card-img-top" src="{{p1}}2F{{recipe.val().image}}{{p2}}" style="width: 100%; object-fit: cover;" alt="...">
+                            <h3 class="recipename" style="margin-left: 10px;">{{recipe.val().recipename}}</h3>
+                            <p class="description" style="margin-left: 10px; margin-right: 10px;">{{recipe.val().description}}</p>
+                            <div class="row" >
+                                <div class="col-md-12" style="display: flex; justify-content: space-around; margin-bottom: 10px;">
+                                    <a href="/editrecipe/{{recipe.key()}}"><button type="button" class="btn btn-info btn-block">Edit</button></a>    
+                                    <a href="/details/{{recipe.key()}}"><button type="button" class="btn btn-info btn-block">Details</button></a>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="norecipes">
+                <p>What? No posts?, Why don't you try adding your own.</p>
+            </div>
+        {% endif %}
+        </div>
+    </div>    
+</div>
+{% endblock content %}

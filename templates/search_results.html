@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="recipes">
+            {% if recipes %}
+            <div class="row">
+                {% for recipe in recipes.each() %}
+                    <!--check if the search input is inside the result-->
+                    {% if recipe.val().recipename and searchIn in recipe.val().recipename %}
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <!--only shows recipes created by the user-->
+                                <div class="recipe">
+                                    <img src="{{p1}}2F{{recipe.val().image}}{{p2}}" class="card-img-top" alt="...">
+                                    <p classs="recipename">{{recipe.val().recipename}}</p>
+                                    <p class="ingredients">{{recipe.val().ingredients}}</p>
+                                    <p class="directions">{{recipe.val().directions}}</p>
+                                </div>
+                                <button type="button" class="btn btn-info"><a href="/editrecipe/{{recipe.key()}}">Edit</a></button>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="norecipes">
+                    <p>What? No posts?, Why don't you try adding your own.</p>
+                </div>
+            {% endif %}
+            </div>
+        </div>    
+    </div>
+{% endblock content %}

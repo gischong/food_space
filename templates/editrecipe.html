@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="editrecipeform" id="editrecipeforms" >
+  {% for p in data %}
+  <form action="/editrecipe/{{p.key()}}", method="POST" enctype="multipart/form-data">
+      <img src="{{p1}}2F{{p.val().image}}{{p2}}" alt="..." id="specrecipeimage" style="width: 50%; height: 50%; border-radius: 20px; margin-bottom: 10px;">
+      <div class="form-group w-50" style="margin-left: 25%;">
+          <label for="recipe_name">Recipe Name</label>
+          <input type="text" class="form-control" id="inputrecipename" name="recipe_name" value="{{p.val().recipename}}">
+      </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="inputdescription" name="description" value="{{p.val().description}}">
+      </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="ingredients">Ingredients</label>
+        <input type="text" class="form-control" id="inputingredients" name="ingredients" value="{{p.val().ingredients}}">
+      </div>
+      <!--didn't use textarea b/c it doesn't have value attribute to retrive previous values-->
+      <div class="form-group w-50"  style="margin-left: 25%;">
+        <label for="directions">Directions</label>
+        <input type="text" class="form-control" id="inputdirections" name="directions" value="{{p.val().directions}}">
+      </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="image">Image</label>
+        <input type="file" class="form-control-file" id="imageFile" name="image" accept="image/*" style="margin-left: 40%;">
+      </div>
+      <div class="row" style="margin-bottom: 100px; margin-top: 25px;">
+        <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;">
+          <button type="submit" href="/editrecipe" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="col-md-6" style="display: flex; justify-content: flex-start; align-items: center;">
+          <form action="/delete/{{p.key()}}", method="POST">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>   
+  </form>
+  {% endfor %}  
+</div>
+{% endblock content %}
