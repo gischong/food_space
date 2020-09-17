@@ -38,7 +38,7 @@
  -  Fix print error "no recipe found" when search result comes back empty after a search
 
 # Heads Up!
- - Firebase query for posts is slow. This can be seen when loading posts. My best speculations of this is because of the querying to both Realtime Database and Storage(recipe picture) to retrieve post data.
+ - Firebase query for posts is slow. This can be seen when loading posts. My best speculation of why this is happening is because of the querying to both Realtime Database and Storage(recipe picture) to retrieve post data.
 
 # License
 Use it as you would like. 
