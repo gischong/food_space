@@ -14,10 +14,10 @@
  - No comments for negative energies. Only positive vibes!
  
 # Installation
-  - Flask - https://flask.palletsprojects.com/en/1.1.x/installation/
-  pip install Flask
-  - pyrebase - https://github.com/thisbejim/Pyrebase
-  pip install pyrebase
+  - Flask - https://flask.palletsprojects.com/en/1.1.x/installation/  
+pip install Flask
+  - pyrebase - https://github.com/thisbejim/Pyrebase  
+pip install pyrebase
  - After cloning this repository and installing the above, cd into the project directory where main.py is located.
  - Run:
   $env:FLASK_APP = "main.py"
@@ -38,7 +38,7 @@
  -  Fix print error "no recipe found" when search result comes back empty after a search
 
 # Heads Up!
- - Firebase query for posts is slow. This can be seen when loading posts. My best speculation of why this is happening is because of the querying to both Realtime Database and Storage(recipe picture) to retrieve post data.
+ - Firebase query for posts is slow. This can be seen when loading posts. My best speculation for why this is happening is due to the querying time of retrieving data from BOTH Realtime Database and Storage(pictures) for the recipe posts.
 
 # License
 Use it as you would like. 
