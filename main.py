@@ -1,6 +1,5 @@
 import pyrebase, collections, os, sys
 from flask import Flask, render_template, redirect, request, session, url_for
-from firebase_admin import auth, storage
 app = Flask(__name__)
 app.secret_key = 'scx93icmw23v!@C!@$d5%!@#$'
 
