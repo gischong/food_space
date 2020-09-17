@@ -7,7 +7,12 @@
   - Flask(Python)
   - Firebase
   - HTML/CSS
-
+  
+# Features
+ - Full CRUD(create, read, update, delete) functionalities for recipe posts
+ - Realtime updates of recipe posts through Firebase
+ - No comments for negative energies. Only positive vibes!
+ 
 # Installation
   - Flask - https://flask.palletsprojects.com/en/1.1.x/installation/
   pip install Flask
@@ -18,11 +23,6 @@
   $env:FLASK_APP = "main.py"
   flask run
  - Then head to http://127.0.0.1:5000/ where the site is running
-
-# Features
- - Full CRUD(create, read, update, delete) functionalities for recipe posts
- - Realtime updates of recipe posts through Firebase
- - No comments for negative energies. Only positive vibes!
 
 # Roadmap
  -  Add in like/dislike system and show percentage of likes vs dislikes
