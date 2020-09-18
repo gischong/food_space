@@ -74,7 +74,8 @@ def recipes():
 @app.route('/categories')
 def categories():
     global cats
-    return render_template('categories.html', title='Categories', categories=cats)
+    allrecipes = database.child("Recipes").get()
+    return render_template('categories.html', title='Categories', categories=cats, recipes=allrecipes)
 
 # Displays all recipes with the same categories
 @app.route('/categories/<category_clicked>', methods=['GET'])
@@ -213,6 +214,9 @@ def addrecipe():
         category = request.form['category']
         recipeimg = request.files['image']
         imgname = recipeimg.filename
+        preptime = request.form['preptime']
+        cooktime = request.form['cooktime']
+        servingsize = request.form['servingsize']
         #print(imgname)
         recipe = {
             "recipename": recipename,
@@ -221,6 +225,9 @@ def addrecipe():
             "directions": directions,
             "category": category,
             "image": imgname,
+            "preptime": preptime,
+            "cooktime": cooktime,
+            "servingsize": servingsize,
             "author": session["email"] 
         }
         try:
@@ -264,7 +271,6 @@ def details(id):
 # edit recipe post
 @app.route('/editrecipe/<id>', methods=['GET', 'POST'])
 def editrecipe(id):
-    
     if (request.method == 'POST'):
         recipename = request.form['recipe_name']
         description = request.form['description']
@@ -273,12 +279,18 @@ def editrecipe(id):
         recipeimg = request.files['image']
         # pryrebase doesn't have a delete file method for storage. So only upload new one for recipe
         imgname = recipeimg.filename
+        preptime = request.form['preptime']
+        cooktime = request.form['cooktime']
+        servingsize = request.form['servingsize']
         recipe = {
             "recipename": recipename,
             "description": description,
             "ingredients": ingredients,
             "directions": directions,
             "image": imgname,
+            "preptime": preptime,
+            "cooktime": cooktime,
+            "servingsize": servingsize,
             "author": session["email"]
         }
         try:
@@ -289,7 +301,6 @@ def editrecipe(id):
             return render_template('myrecipes.html', message= 'edit didnt work dumbass')
     # get values for specific recipe to display
     recipe_deets = database.child("Recipes").order_by_key().equal_to(id).limit_to_first(1).get()
-    
     # DISCLAIMER: NOT a good way to get image path from firebase storage --> firebase image path url can change in future versions!!!
     # https://firebasestorage.googleapis.com/v0/b/storage-url.appspot.com/o/images% |2F| |example.jpg| ?alt=media
     # split the base image path url into two parts --> then filled in the delimiter(2F) and combined it for image src
@@ -302,7 +313,7 @@ def editrecipe(id):
     return render_template('editrecipe.html', data=recipe_deets, p1=url0, p2=url1 )
 
 # delete recipe post
-@app.route('/delete/<id>', methods=['POST'])
+@app.route('/delete/<id>', methods=['GET','POST'])
 def delete(id):
     database.child("Recipes").child(id).remove()
     return redirect('/myrecipes')

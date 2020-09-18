@@ -25,16 +25,26 @@
         <label for="image">Image</label>
         <input type="file" class="form-control-file" id="imageFile" name="image" accept="image/*" style="margin-left: 40%;">
       </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="preptime">Prep Time</label>
+        <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="form-control" id="inputpreptime" name="preptime" value="{{p.val().preptime}}">
+      </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="cooktime">Cook Time</label>
+        <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="form-control" id="inputcooktime" name="cooktime" value="{{p.val().cooktime}}">
+      </div>
+      <div class="form-group w-50" style="margin-left: 25%;">
+        <label for="serving">Serving Size</label>
+        <input type="number" min="0" class="form-control" id="inputserving" name="servingsize" value="{{p.val().servingsize}}">
+      </div>
       <div class="row" style="margin-bottom: 100px; margin-top: 25px;">
         <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;">
           <button type="submit" href="/editrecipe" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-md-6" style="display: flex; justify-content: flex-start; align-items: center;">
-          <form action="/delete/{{p.key()}}", method="POST">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          <a href="/delete/{{p.key()}}"><button type="button" class="bt btn-danger" style="width: 76.05; height: 38px; border-radius: 5px; border-style: solid;">Delete</button></a>
         </div>
-      </div>   
+      </div>
   </form>
   {% endfor %}  
 </div>

@@ -30,8 +30,6 @@ pip install pyrebase
  -  Filter and display recipes by newest/oldest/most popular(most hearts)/top rated(highest percentage of likes) function
  -  Add in pagination for recipes
  -  Allow users to add a username instead of displaying email as author of recipe
- -  Add in recipe count(er) for each category on categories page
- -  Add prep time/cook time/total time and serving amount as input options for recipes
  -  Add "profile page" navigation to top right nav bar when user is logged in
  -  Allow user to upload a profile picture while displaying empty default if non is given
  -  Add cooking news from other sites and cooking guides links
