@@ -233,6 +233,8 @@ def addrecipe():
         try:
             database.child("Recipes").push(recipe)
             storage.child("images/"+imgname).put(recipeimg)
+            # add new recipename to likesSummary db
+            addRecipeLikesDB(recipename)
             return redirect('/myrecipes')
         except:
             return render_template('addrecipe.html', message="didnt work dumb dumb")
@@ -317,6 +319,34 @@ def editrecipe(id):
 def delete(id):
     database.child("Recipes").child(id).remove()
     return redirect('/myrecipes')
+
+# have a likesDetail table that stores the post_id, user_id, and liked status(true/false)
+# have likesSummary table that stores the post_id and the number of likes it has
+def likesDetail(id):
+    # which user liked which post
+    # triggered by the click of the liked button
+    # on insert
+        # if the post_id doesn't exist in this table database
+            # AND if post_id like == true
+                # insert new row of post_id and likes # amount
+        # else if post_id exist in this table database
+            # 'update' the post_id's likes += 1(adding the number of likes)
+
+    # on update
+        # if post_id doesn't exist in likes_summary
+            # do nothing
+        # else if post_id exists in likes_summary
+            # if user previously liked this post --> now dislikes it
+                # update likes_summary table where post_id likes -= 1
+            # else if user previously dissliked this post and now likes it 
+                # update likes_summary table where post_id likes +=1
+    return
+
+
+def likesSummary():
+    # get post id and the number of likes from it
+    # for each like add 
+    return
 
 if __name__ == '__main__':
     app.run(debug=True)
