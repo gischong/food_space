@@ -296,20 +296,6 @@ def addrecipe():
             return render_template('addrecipe.html', message="didnt work dumb dumb")
     return render_template('addrecipe.html', categories=cats)
 
-@app.route('/addimg', methods=['GET','POST'])
-def addimg():
-    if (request.method == 'POST'):
-        recipeimg = request.files['image']
-        print(recipeimg)
-        # get image filename
-        #recipeimg.save(recipeimg.filename)
-        imgname = recipeimg.filename
-        print(imgname)
-        # creates a "dumb" image file path for child(path)
-        storage.child("images/"+imgname).put(recipeimg)
-        return redirect('/home')
-    return render_template('addimg.html')
-
 # gets the details(ingredients/directions) of a recipe post through id
 @app.route('/details/<id>')
 def details(id):
@@ -375,34 +361,6 @@ def editrecipe(id):
 def delete(id):
     database.child("Recipes").child(id).remove()
     return redirect('/myrecipes')
-
-# have a likesDetail table that stores the post_id, user_id, and liked status(true/false)
-# have likesSummary table that stores the post_id and the number of likes it has
-def likesDetail(id):
-    # which user liked which post
-    # triggered by the click of the liked button
-    # on insert
-        # if the post_id doesn't exist in this table database
-            # AND if post_id like == true
-                # insert new row of post_id and likes # amount
-        # else if post_id exist in this table database
-            # 'update' the post_id's likes += 1(adding the number of likes)
-
-    # on update
-        # if post_id doesn't exist in likes_summary
-            # do nothing
-        # else if post_id exists in likes_summary
-            # if user previously liked this post --> now dislikes it
-                # update likes_summary table where post_id likes -= 1
-            # else if user previously dissliked this post and now likes it 
-                # update likes_summary table where post_id likes +=1
-    return
-
-
-def likesSummary():
-    # get post id and the number of likes from it
-    # for each like add 
-    return
 
 if __name__ == '__main__':
     app.run(debug=True)
