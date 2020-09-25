@@ -33,6 +33,7 @@ def index():
 def home():
     # get all recipes in Recipes database
     allrecipes = database.child("Recipes").get()
+    userdata = database.child("Profiles").get()
     # DISCLAIMER: NOT a good way to get image path from firebase storage --> firebase image path url can change in future versions!!!
     # https://firebasestorage.googleapis.com/v0/b/storage-url.appspot.com/o/images% |2F| |example.jpg| ?alt=media
     # split the base image path url into two parts --> then filled in the delimiter(2F) and combined it for image src
@@ -48,7 +49,7 @@ def home():
     if (allrecipes.val() == None):
         return render_template('home.html')
     else:
-        return render_template('home.html', recipes=allrecipes, title='Home', p1=url0, p2=url1 )
+        return render_template('home.html', recipes=allrecipes, profiles=userdata, title='Home', p1=url0, p2=url1 )
 
 # Display all existing recipes
 @app.route('/recipes')
@@ -186,6 +187,16 @@ def logout():
     firebase.current_user = None
     session.clear()
     return redirect('home')
+
+# Get current user data for profile button on nav-bar template(reused)
+@app.context_processor
+def getprofiledeets():
+    userdata = database.child("Profiles").get()
+    img_url = storage.child("profile/").get_url(None)
+    split_url = img_url.split("2F")
+    url0 = split_url[0]
+    url1 = split_url[1]
+    return {'userdata': userdata, 'p1': url0, 'p2': url1}
 
 # User profile page
 @app.route('/myprofile')

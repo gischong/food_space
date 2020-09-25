@@ -29,8 +29,8 @@ pip install pyrebase
  -  Add in "heart"(favorites) button for users to keep track of recipes they like
  -  Filter and display recipes by newest/oldest/most popular(most hearts)/top rated(highest percentage of likes) function
  -  Add in pagination for recipes
- -  Display user's username if it exist, else display user's email instead
- -  Display user's profile pic
+ -  Display user's username on recipes if it exist, else display user's email instead
+ -  Add optional profile pictures users can choose from(no upload from user end)
  -  Allow user to reset password(current 'reset password' button isn't working)
  -  Add cooking news from other sites and cooking guides links
  -  Fix print error "no recipe found" when search result comes back empty after a search
