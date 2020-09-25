@@ -137,7 +137,7 @@ def register():
     if (request.method == 'POST'):
         email = request.form['email']
         password = request.form['password']
-        username = "n/a"
+        username = request.form['username']
         imgname = "n/a"
         # creates database for user profiles
         profile = {
@@ -198,6 +198,25 @@ def getprofiledeets():
     url1 = split_url[1]
     return {'userdata': userdata, 'p1': url0, 'p2': url1}
 
+# Gets the username of the current user
+def getusername():
+    currentuser = session['email']
+    # gets the correct profile by current session email
+    userprofile = database.child("Profiles").order_by_child("email").equal_to(currentuser).get()
+    print(userprofile)
+    # loops through the profile's attributes to look for username
+    for x in userprofile.each():
+        print(x.key())
+        thelist = list(x.val().values())
+        print(thelist[2])
+        print(x.val().values())
+    return thelist[3]
+
+def getcurrentuser():
+    user = session['email']
+    print(user)
+    return
+    
 # User profile page
 @app.route('/myprofile')
 def myprofile():
@@ -242,10 +261,6 @@ def editprofile(id):
     url1 = split_url[1]
     return render_template('editprofile.html', profile=user_deets, title='My Profile', p1=url0, p2=url1)
 
-def resetpassword():
-    firebase.auth.send_password_reset_email("email")
-    return redirect('myprofile')
-
 # Page shows all the user's own recipes they posted
 # User can add or edit their recipes here 
 @app.route('/myrecipes')
@@ -286,6 +301,7 @@ def addrecipe():
         preptime = request.form['preptime']
         cooktime = request.form['cooktime']
         servingsize = request.form['servingsize']
+        currentusername = getusername()
         #print(imgname)
         recipe = {
             "recipename": recipename,
@@ -297,7 +313,8 @@ def addrecipe():
             "preptime": preptime,
             "cooktime": cooktime,
             "servingsize": servingsize,
-            "author": session["email"] 
+            "username": currentusername,
+            "author": session['email']
         }
         try:
             database.child("Recipes").push(recipe)

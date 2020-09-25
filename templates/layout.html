@@ -72,7 +72,7 @@
             {% if session["usr"] %}
               {% for x in userdata %}
                 {% if x.val().email == session["email"] %}
-                {% if x.val().profileimg == "n/a" %}
+                {% if x.val().profileimg == "n/a" or null %}
                 <div style="height: 38px; width: 38px; margin-right: 5px;">
                   <img src="static\images\480px-No_image_available.svg.png" style="width: 100%; height: 100%; object-fit: contain;">  
                 </div>
