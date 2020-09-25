@@ -136,6 +136,15 @@ def register():
     if (request.method == 'POST'):
         email = request.form['email']
         password = request.form['password']
+        username = "n/a"
+        imgname = "n/a"
+        # creates database for user profiles
+        profile = {
+            "email": email,
+            "password": password,
+            "username": username,
+            "profileimg": imgname
+        }
         try:
             # create the user
             firebase.auth().create_user_with_email_and_password(email, password)
@@ -146,6 +155,7 @@ def register():
             user_email = email
             session['usr'] = user_id
             session['email'] = user_email
+            database.child("Profiles").push(profile)
             return redirect('home')
         except:
             return render_template('register.html', title='Register', message='This email is already in use. Please try another one.')
@@ -176,6 +186,54 @@ def logout():
     firebase.current_user = None
     session.clear()
     return redirect('home')
+
+# User profile page
+@app.route('/myprofile')
+def myprofile():
+    userdata = database.child("Profiles").get()
+    # DISCLAIMER: NOT a good way to get image path from firebase storage --> firebase image path url can change in future versions!!!
+    # https://firebasestorage.googleapis.com/v0/b/storage-url.appspot.com/o/images% |2F| |example.jpg| ?alt=media
+    # split the base image path url into two parts --> then filled in the delimiter(2F) and combined it for image src
+    img_url = storage.child("profile/").get_url(None)
+    split_url = img_url.split("2F")
+    #print(img_url)
+    #print(split_url[0], split_url[1])
+    url0 = split_url[0]
+    url1 = split_url[1]
+    return render_template('myprofile.html', profile=userdata, title='My Profile', p1=url0, p2=url1)
+
+# Edit profile page
+@app.route('/editprofile/<id>', methods=['GET', 'POST'])
+def editprofile(id):
+    if (request.method == 'POST'):
+        username = request.form['username']
+        profileimage = request.files['image']
+        imgname = profileimage.filename
+        profile = {
+            "username": username,
+            "profileimg": imgname
+        }
+        try:
+            database.child("Profiles").child(id).update({"username": username, "profileimg": imgname})
+            storage.child("profile/"+imgname).put(profileimage)
+            return redirect('/myprofile')
+        except:
+            return redirect('/myprofile')
+    user_deets = database.child("Profiles").order_by_key().equal_to(id).limit_to_first(1).get()
+    # DISCLAIMER: NOT a good way to get image path from firebase storage --> firebase image path url can change in future versions!!!
+    # https://firebasestorage.googleapis.com/v0/b/storage-url.appspot.com/o/images% |2F| |example.jpg| ?alt=media
+    # split the base image path url into two parts --> then filled in the delimiter(2F) and combined it for image src
+    img_url = storage.child("profile/").get_url(None)
+    split_url = img_url.split("2F")
+    #print(img_url)
+    #print(split_url[0], split_url[1])
+    url0 = split_url[0]
+    url1 = split_url[1]
+    return render_template('editprofile.html', profile=user_deets, title='My Profile', p1=url0, p2=url1)
+
+def resetpassword():
+    firebase.auth.send_password_reset_email("email")
+    return redirect('myprofile')
 
 # Page shows all the user's own recipes they posted
 # User can add or edit their recipes here 
@@ -233,8 +291,6 @@ def addrecipe():
         try:
             database.child("Recipes").push(recipe)
             storage.child("images/"+imgname).put(recipeimg)
-            # add new recipename to likesSummary db
-            addRecipeLikesDB(recipename)
             return redirect('/myrecipes')
         except:
             return render_template('addrecipe.html', message="didnt work dumb dumb")

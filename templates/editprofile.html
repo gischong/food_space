@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    {% for x in profile %}
+    <form action="/editprofile/{{x.key()}}", method="POST" enctype="multipart/form-data">
+    <!--{% if x.val().email == session["email"] %}-->
+    <div class="row" style="margin-top: 150px;">           
+        <div class="col-md-6" style="display: flex; flex-direction: column; justify-content: space-between; margin-left: 300px;">
+            <div style="position: relative;">
+            {% if x.val().profileimg == "n/a" %}
+                <div style="margin: auto; width: 50%;">
+                    <img src="..\static\images\480px-No_image_available.svg.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                </div>    
+            {% else %}
+                <div style="margin: auto; width: 50%;">
+                    <img src="{{p1}}2F{{x.val().profileimg}}{{p2}}" style="width: 100%; height: 100%; border-radius: 20px;">    
+                </div>
+            {% endif %}    
+            </div>
+            <div class="form-group w-50" style="margin: auto; width: 50%; margin-top: 20px;">
+                <h4>Email:</h4>
+                <input type="text" class="form-control" id="inputemail" name="email" value="{{x.val().email}}" readonly="readonly">
+            </div>
+            <div class="form-group w-50" style="margin: auto; width: 50%; margin-top: 20px;">
+                <div style="display: flex; justify-content: flex-start;">
+                    <h4>Password:</h4>    
+                    <a><button style="height: 28px; margin-left: 15px;">Reset Here</button></a> 
+                </div>
+                <div style = "display: flex; justify-content: flex-start;">
+                    <input type="password" class="form-control" id="inputpassword" name="password" value="{{x.val().password}}" readonly="readonly">
+                    <svg onclick="myFunction()" style="margin-left: 5px; margin-bottom: 5px;" width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-eye-slash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.79 12.912l-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708l-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829z"/>
+                        <path fill-rule="evenodd" d="M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"/>
+                    </svg>    
+                </div>  
+            </div>
+            <div class="form-group w-50" style="margin: auto; width: 50%; margin-top: 20px;">
+                <h4>User Name:</h4>
+                <input type="text" class="form-control" id="inputusername" name="username" value="{{x.val().username}}">
+            </div>
+            <div class="form-group w-50" style="margin: auto; width: 50; margin-top: 20px;">
+                <h4>Change Profile Picture</h4>
+                <input type="file" id="image" name="image" accept="profile/*" style="border-style: solid; border-width: thin; padding: 3%;">
+            </div>
+            <div style="display:flex; flex-direction: row; justify-content: center; align-items: initial; margin-top: 20px;">
+                <div style="margin-right: 50px;">
+                    <a href="/myprofile"><button type="button"  class="btn btn-primary">Back</button></a>
+                </div>
+                <div style="margin-left: 10px;">
+                    <button type="submit" href="/editprofile" class="btn btn-primary">Submit</button>
+                </div>    
+            </div>
+             
+        </div>        
+    </div>
+    <!--{% endif %}-->
+    </form>
+    {% endfor %}
+</div>
+<script>
+    function myFunction() {
+      var x = document.getElementById("inputpassword");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+</script>
+{% endblock content %}
